@@ -8,6 +8,6 @@
 
 #include<vector>
 
-int build(int w, int e, const std::vector<std::vector<int>> & bridges);
+int build(int, int, const std::vector<std::vector<int>> &);
 
 #endif /* BRIDGE_HPP */
