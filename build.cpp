@@ -44,17 +44,19 @@ bool bridgeIsValid( const vector<Bridge> & bridge){
     for ( const auto & a: bridge ){
         for ( const auto & b: bridge ){
             if ( bridge.size() == 1 ){ return true; }
-            if ( &a != &b && a == b ){
+            if ( &a == &b ){
                 continue;
             }
             if ( ( a[ 0 ] < b[ 0 ] && a[ 1 ] < b[ 1 ] ) ||
                  ( a[ 0 ] > b[ 0 ] && a[ 1 ] > b[ 1 ] ) ) {
-                std::cout << "Here!" << std::endl;
-                return true;
+                continue;
+            }
+            else {
+                return false;
             }
         }
     }
-    return false;
+    return true;
 }
 
 vector<Bridge> subsetItem( const size_t & id, const vector<Bridge> & totalSet ){
@@ -92,14 +94,14 @@ int bridgeCount( const vector<Bridge> & bridges ){
         subset = subsetItem( subsetID, bridges );
         if ( subset.empty() ){ continue; }
         int temp = calculateToll( subset );
-        std::cout << "subset:" << std::endl;
-        printBridges( subset );
+        //std::cout << "subset:" << std::endl;
+        //printBridges( subset );
         if ( bridgeIsValid( subset ) ) {
             if (greatestToll < temp ){
                 greatestToll = temp;
             }
         }
-        std::cout << "Total: " << greatestToll << std::endl;
+        //std::cout << "Total: " << greatestToll << std::endl;
     } 
     return greatestToll;
 }
