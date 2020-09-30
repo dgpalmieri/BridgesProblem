@@ -43,10 +43,13 @@ void printBridges(const vector<Bridge> & bridges){
 bool bridgeIsValid( const vector<Bridge> & bridge){
     for ( const auto & a: bridge ){
         for ( const auto & b: bridge ){
-            if (a == b)
+            if ( bridge.size() == 1 ){ return true; }
+            if ( &a != &b && a == b ){
                 continue;
+            }
             if ( ( a[ 0 ] < b[ 0 ] && a[ 1 ] < b[ 1 ] ) ||
                  ( a[ 0 ] > b[ 0 ] && a[ 1 ] > b[ 1 ] ) ) {
+                std::cout << "Here!" << std::endl;
                 return true;
             }
         }
@@ -65,30 +68,14 @@ vector<Bridge> subsetItem( const size_t & id, const vector<Bridge> & totalSet ){
             bits.push_back( false );
         }
     }
-/*
- *    std::cout << "Total Set:" << std::endl;
- *    printBridges(totalSet);
- *    std::cout << std::endl;
- *
- *    std::reverse( bits.begin(), bits.end() );
- *
- *    std::cout << "bits (reversed):" << std::endl;
- *    printVector(bits);
- *    std::cout << std::endl;
- */
+
+    std::reverse( bits.begin(), bits.end() );
+
     for ( size_t j = 0; j < bits.size(); ++j){
         if(bits[ j ]){
-            subset.push_back(totalSet[ j ]); //TODO: segfault happens here: probably oob error
+            subset.push_back(totalSet[ j ]);
         }
     }
-
-    /*
-     *std::cout << "subset:" << std::endl;
-     *printBridges(subset);
-     *std::cout << std::endl;
-     *std::cout << std::endl;
-     */
-
 
     return subset;
 }
@@ -102,19 +89,17 @@ int bridgeCount( const vector<Bridge> & bridges ){
     vector<Bridge> subset;
     int greatestToll = 0;
     for( size_t subsetID = 0; subsetID < 1u<<bridges.size(); ++subsetID ){
-        std::cout << "Here!" << std::endl;
         subset = subsetItem( subsetID, bridges );
         if ( subset.empty() ){ continue; }
         int temp = calculateToll( subset );
-        std::cout << "f&b: " << int(subset.front() == subset.back()) << std::endl;
-        std::cout << "valid: " << int(bridgeIsValid( subset )) << std::endl;
-        std::cout << "empty: " << subset.empty() << std::endl;
-        if ( ( subset.front() != subset.back() && bridgeIsValid( subset ) ) ||
-             ( !subset.empty() && subset.front() == subset.back() ) ){
+        std::cout << "subset:" << std::endl;
+        printBridges( subset );
+        if ( bridgeIsValid( subset ) ) {
             if (greatestToll < temp ){
                 greatestToll = temp;
             }
         }
+        std::cout << "Total: " << greatestToll << std::endl;
     } 
     return greatestToll;
 }
