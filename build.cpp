@@ -16,30 +16,6 @@ using std::vector;
 
 using Bridge = vector<int>;
 
-void printVector(const vector<int> & a){
-    std::cout << "{ ";
-    for (const auto & i: a){
-        std::cout << i << " ";
-    }
-    std::cout << "}" << std::endl;
-}
-
-void printVector(const vector<bool> & a){
-    std::cout << "{ ";
-    for (const auto & i: a){
-        std::cout << i << " ";
-    }
-    std::cout << "}" << std::endl;
-}
-
-void printBridges(const vector<Bridge> & bridges){
-    std::cout << "{ " << std::endl;
-    for (const auto & j: bridges){
-        printVector(j);
-    }
-    std::cout << "}" << std::endl;
-}
-
 bool bridgeIsValid( const vector<Bridge> & bridge){
     for ( const auto & a: bridge ){
         for ( const auto & b: bridge ){
@@ -94,14 +70,11 @@ int bridgeCount( const vector<Bridge> & bridges ){
         subset = subsetItem( subsetID, bridges );
         if ( subset.empty() ){ continue; }
         int temp = calculateToll( subset );
-        //std::cout << "subset:" << std::endl;
-        //printBridges( subset );
         if ( bridgeIsValid( subset ) ) {
             if (greatestToll < temp ){
                 greatestToll = temp;
             }
         }
-        //std::cout << "Total: " << greatestToll << std::endl;
     } 
     return greatestToll;
 }
